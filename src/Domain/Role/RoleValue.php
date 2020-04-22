@@ -3,30 +3,43 @@ declare(strict_types=1);
 
 namespace Plexikon\Ouste\Domain\Role;
 
+use Plexikon\Ouste\Exception\Validate;
 use Plexikon\Ouste\Support\Contracts\Domain\Role\Role;
 use Plexikon\Ouste\Support\Contracts\Http\Value\Value;
 
 class RoleValue implements Role, Value
 {
-    private string $roleName;
+    const PREFIX = 'ROLE_';
 
-    public function __construct(string $roleName)
+    private string $role;
+
+    protected function __construct(string $role)
     {
-        $this->roleName = $roleName;
+        $this->role = $role;
+    }
+
+    public static function fromString(string $roleName): self
+    {
+        Validate::that($roleName, 'role is invalid')
+            ->startsWith($roleName, self::PREFIX)
+            ->minLength(8, $roleName);
+
+        return new self($roleName);
     }
 
     public function getRole(): string
     {
-        return $this->roleName;
+        return $this->role;
     }
 
-    public function getValue(): string
+    public function getValue()
     {
-        return $this->roleName;
+        return $this->getRole();
     }
 
     public function sameValueAs(Value $aValue): bool
     {
-        return $aValue instanceof $this && $this->getRole() === $aValue->getRole();
+        return $aValue instanceof $this
+            && $this->getRole() === $aValue->getRole();
     }
 }

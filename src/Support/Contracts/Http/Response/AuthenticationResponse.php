@@ -3,9 +3,9 @@
 namespace Plexikon\Ouste\Support\Contracts\Http\Response;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Plexikon\Ouste\Exception\AuthenticationException;
 use Plexikon\Ouste\Support\Contracts\Guard\Authentication\Tokenable;
+use Symfony\Component\HttpFoundation\Response;
 
 interface AuthenticationResponse
 {
