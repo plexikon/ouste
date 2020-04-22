@@ -23,7 +23,7 @@ final class HomeAuthenticationResponse implements AuthenticationResponse
 
     public function onSuccess(Request $request, Tokenable $token): Response
     {
-        return $this->responseFactory->redirectTo($this->safeRoute);
+        return $this->responseFactory->redirectToRoute($this->safeRoute);
     }
 
     public function onFailure(Request $request, AuthenticationException $exception): Response

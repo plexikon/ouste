@@ -28,11 +28,11 @@ final class GenericTrustResolver implements TrustResolver
 
     public function isRemembered(?Tokenable $token): bool
     {
-        return $token instanceof $this->anonymousClass;
+        return $token instanceof $this->rememberedClass;
     }
 
     public function isAnonymous(?Tokenable $token): bool
     {
-        return $token instanceof $this->rememberedClass;
+        return $token instanceof $this->anonymousClass;
     }
 }
