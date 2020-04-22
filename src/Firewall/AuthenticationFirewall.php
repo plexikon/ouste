@@ -8,6 +8,8 @@ use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
+use Plexikon\Ouste\Auth\Anonymous\AnonymousAuthentication;
+use Plexikon\Ouste\Auth\Anonymous\ProvideAnonymousAuthentication;
 use Plexikon\Ouste\Auth\Context\ContextAuthentication;
 use Plexikon\Ouste\Auth\Local\EmailPasswordRequest;
 use Plexikon\Ouste\Auth\Local\LocalAuthentication;
@@ -72,10 +74,12 @@ class AuthenticationFirewall
             ),
 
             new LocalAuthentication(
-                new EmailPasswordRequest('auth.login'),
+                new EmailPasswordRequest('auth.login.post'),
                 $this->container->make(HomeAuthenticationResponse::class),
                 $context
-            )
+            ),
+
+            new AnonymousAuthentication($context . '.anon'),
         ];
     }
 
@@ -97,7 +101,9 @@ class AuthenticationFirewall
                 new NoOpUserChecker(),
                 new NoOpTokenDecorator(),
                 $context
-            )
+            ),
+
+            new ProvideAnonymousAuthentication($context . '.anon'),
         ];
     }
 
@@ -105,7 +111,7 @@ class AuthenticationFirewall
     {
         return [
             new InMemoryUser(
-                UserEmailIdentifier::fromString('plexikon@proton.com'),
+                UserEmailIdentifier::fromString('plexikon@protonmail.com'),
                 BcryptEncodedPassword::fromString(
                     password_hash('password1', PASSWORD_BCRYPT)
                 ),

@@ -28,6 +28,6 @@ final class HomeAuthenticationResponse implements AuthenticationResponse
 
     public function onFailure(Request $request, AuthenticationException $exception): Response
     {
-        return $this->responseFactory->redirectTo($this->safeRoute);
+        return $this->responseFactory->redirectToRoute($this->safeRoute);
     }
 }
