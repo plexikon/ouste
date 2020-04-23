@@ -1,13 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Plexikon\Ouste\Http\Middleware;
+namespace Plexikon\Ouste\Support\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
 use Plexikon\Ouste\Exception\AuthenticationException;
 use Plexikon\Ouste\Support\Contracts\Http\Middleware\AuthenticationEventGuard;
-use Plexikon\Ouste\Support\Http\Middleware\HasGuard;
 use Symfony\Component\HttpFoundation\Response;
 
 trait HasAuthenticationGuard

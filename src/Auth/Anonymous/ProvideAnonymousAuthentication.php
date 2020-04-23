@@ -6,7 +6,7 @@ namespace Plexikon\Ouste\Auth\Anonymous;
 use Plexikon\Ouste\Support\Contracts\Guard\Authentication\AuthenticationProvider;
 use Plexikon\Ouste\Support\Contracts\Guard\Authentication\Tokenable;
 
-class ProvideAnonymousAuthentication implements AuthenticationProvider
+final class ProvideAnonymousAuthentication implements AuthenticationProvider
 {
     private string $anonymousContext;
 

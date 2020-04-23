@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace Plexikon\Ouste\Auth\Anonymous;
 
 use Plexikon\Ouste\Guard\Authentication\Token\HasToken;
-use Plexikon\Ouste\Support\Contracts\Guard\Authentication\Tokenable;
+use Plexikon\Ouste\Support\Contracts\Guard\Authentication\AnonymousToken;
 
-class GenericAnonymousToken implements Tokenable
+final class GenericAnonymousToken implements AnonymousToken
 {
     use HasToken;
 }

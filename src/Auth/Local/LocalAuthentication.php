@@ -4,12 +4,12 @@ declare(strict_types=1);
 namespace Plexikon\Ouste\Auth\Local;
 
 use Illuminate\Http\Request;
-use Plexikon\Ouste\Http\Middleware\HasAuthenticationGuard;
 use Plexikon\Ouste\Support\Contracts\Guard\Authentication\Tokenable;
 use Plexikon\Ouste\Support\Contracts\Http\Middleware\AuthenticationEventGuard;
 use Plexikon\Ouste\Support\Contracts\Http\Middleware\StatefulAuthentication;
 use Plexikon\Ouste\Support\Contracts\Http\Request\AuthenticationRequest;
 use Plexikon\Ouste\Support\Contracts\Http\Response\AuthenticationResponse;
+use Plexikon\Ouste\Support\Http\Middleware\HasAuthenticationGuard;
 use Plexikon\Ouste\Support\Http\Middleware\HasEventGuard;
 use Plexikon\Ouste\Support\Http\Middleware\HasStatefulAuthentication;
 use Symfony\Component\HttpFoundation\Response;

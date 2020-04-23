@@ -8,7 +8,7 @@ use Plexikon\Ouste\Support\Contracts\Guard\Authentication\Tokenable;
 use Plexikon\Ouste\Support\Contracts\Guard\Authorization\AuthorizationStrategy;
 use Plexikon\Ouste\Support\Contracts\Guard\Authorization\Votable;
 
-class UnanimousAuthorization implements AuthorizationStrategy
+final class UnanimousAuthorization implements AuthorizationStrategy
 {
     private iterable $voters;
     private bool $allowIfAllAbstain;

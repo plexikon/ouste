@@ -28,7 +28,10 @@
     "autoload": {
         "psr-4": {
             "Plexikon\\Ouste\\": "src"
-        }
+        },
+        "files": [
+            "src/Support/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

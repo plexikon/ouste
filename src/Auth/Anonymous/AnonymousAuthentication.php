@@ -5,8 +5,8 @@ namespace Plexikon\Ouste\Auth\Anonymous;
 
 use Illuminate\Http\Request;
 use Plexikon\Ouste\Exception\AuthenticationException;
-use Plexikon\Ouste\Http\Middleware\HasAuthenticationGuard;
 use Plexikon\Ouste\Support\Contracts\Http\Middleware\AuthenticationGuard;
+use Plexikon\Ouste\Support\Http\Middleware\HasAuthenticationGuard;
 use Symfony\Component\HttpFoundation\Response;
 
 final class AnonymousAuthentication implements AuthenticationGuard
@@ -18,11 +18,6 @@ final class AnonymousAuthentication implements AuthenticationGuard
     public function __construct(string $anonymousContext)
     {
         $this->anonymousContext = $anonymousContext;
-    }
-
-    protected function needAuthentication(Request $request): bool
-    {
-        return $this->guard->isStorageEmpty();
     }
 
     protected function processAuthentication(Request $request): ?Response
@@ -40,5 +35,10 @@ final class AnonymousAuthentication implements AuthenticationGuard
         }
 
         return null;
+    }
+
+    protected function needAuthentication(Request $request): bool
+    {
+        return $this->guard->isStorageEmpty();
     }
 }

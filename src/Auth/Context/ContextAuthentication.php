@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 use Plexikon\Ouste\Domain\User\Exception\UserNotFound;
 use Plexikon\Ouste\Exception\AuthenticationException;
 use Plexikon\Ouste\Http\Event\ContextEvent;
-use Plexikon\Ouste\Http\Middleware\HasAuthenticationGuard;
 use Plexikon\Ouste\Support\Contracts\Domain\User\UserProvider;
 use Plexikon\Ouste\Support\Contracts\Guard\Authentication\Tokenable;
 use Plexikon\Ouste\Support\Contracts\Http\Middleware\AuthenticationGuard;
+use Plexikon\Ouste\Support\Http\Middleware\HasAuthenticationGuard;
 use Symfony\Component\HttpFoundation\Response;
 
 class ContextAuthentication implements AuthenticationGuard
@@ -26,13 +26,6 @@ class ContextAuthentication implements AuthenticationGuard
         $this->userProviders = $userProviders;
     }
 
-    protected function needAuthentication(Request $request): bool
-    {
-        $this->guard->fireAuthenticationEvent($this->contextEvent);
-
-        return $request->session()->has($this->contextEvent->sessionName());
-    }
-
     protected function processAuthentication(Request $request): ?Response
     {
         try {
@@ -44,6 +37,13 @@ class ContextAuthentication implements AuthenticationGuard
         }
 
         return null;
+    }
+
+    protected function needAuthentication(Request $request): bool
+    {
+        $this->guard->fireAuthenticationEvent($this->contextEvent);
+
+        return $request->session()->has($this->contextEvent->sessionName());
     }
 
     protected function handleSerializedToken(string $tokenString): void

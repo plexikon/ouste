@@ -41,15 +41,16 @@ class AuthenticationFirewall
         $this->container = $container;
     }
 
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next, string $firewall = null)
     {
         // token storage singleton
 
-        $context = 'front_end';
+        $context = $firewall ?? 'front_end';
         $userProvider = new InMemoryUserProvider(...$this->loadUsers());
         $manager = new AuthenticationManager(
             ...$this->authenticationProviders($userProvider, $context)
         );
+        $this->container->instance(Authenticatable::class, $manager);
 
         $middleware = $this->stackMiddleware([$userProvider], $context);
         $guard = $this->newGuardInstance($manager);
