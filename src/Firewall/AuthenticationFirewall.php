@@ -6,6 +6,7 @@ namespace Plexikon\Ouste\Firewall;
 use Closure;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
 use Plexikon\Ouste\Auth\Anonymous\AnonymousAuthentication;
@@ -18,6 +19,7 @@ use Plexikon\Ouste\Domain\User\InMemoryUser;
 use Plexikon\Ouste\Domain\User\InMemoryUserProvider;
 use Plexikon\Ouste\Domain\User\NoOpUserChecker;
 use Plexikon\Ouste\Guard\Authentication\AuthenticationManager;
+use Plexikon\Ouste\Guard\Credentials\PasswordHasherValidator;
 use Plexikon\Ouste\Guard\Guard;
 use Plexikon\Ouste\Http\Event\ContextEvent;
 use Plexikon\Ouste\Http\Response\HomeAuthenticationResponse;
@@ -99,6 +101,9 @@ class AuthenticationFirewall
             new ProvideLocalAuthentication(
                 $userProvider,
                 new NoOpUserChecker(),
+                new PasswordHasherValidator(
+                    $this->container->get(Hasher::class)
+                ),
                 new NoOpTokenDecorator(),
                 $context
             ),

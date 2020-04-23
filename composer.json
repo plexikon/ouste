@@ -16,13 +16,14 @@
         "ext-json": "*"
     },
     "require-dev": {
-        "ramsey/uuid": "^3.9",
-        "react/promise": "^2.7",
         "nunomaduro/larastan": "^0.5.3",
         "orchestra/testbench": "^5.1",
         "phpstan/phpstan": "^0.12",
         "phpunit/phpunit": "^8.5",
-        "roave/security-advisories": "dev-master"
+        "ramsey/uuid": "^3.9",
+        "react/promise": "^2.7",
+        "roave/security-advisories": "dev-master",
+        "symfony/expression-language": "^5.0"
     },
     "autoload": {
         "psr-4": {

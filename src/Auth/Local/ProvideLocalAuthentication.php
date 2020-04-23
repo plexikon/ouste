@@ -5,6 +5,7 @@ namespace Plexikon\Ouste\Auth\Local;
 
 use Plexikon\Ouste\Domain\User\Exception\BadCredentials;
 use Plexikon\Ouste\Domain\User\Exception\UserNotFound;
+use Plexikon\Ouste\Exception\AuthenticationServiceFailure;
 use Plexikon\Ouste\Exception\RuntimeException;
 use Plexikon\Ouste\Support\Contracts\Domain\User\LocalUser;
 use Plexikon\Ouste\Support\Contracts\Domain\User\UserChecker;
@@ -12,21 +13,25 @@ use Plexikon\Ouste\Support\Contracts\Domain\User\UserProvider;
 use Plexikon\Ouste\Support\Contracts\Guard\Authentication\AuthenticationProvider;
 use Plexikon\Ouste\Support\Contracts\Guard\Authentication\Tokenable;
 use Plexikon\Ouste\Support\Contracts\Guard\Authentication\TokenDecorator;
+use Plexikon\Ouste\Support\Contracts\Guard\CredentialsChecker;
 
 class ProvideLocalAuthentication implements AuthenticationProvider
 {
     private UserProvider $userProvider;
     private UserChecker $userChecker;
+    private CredentialsChecker $credentialsChecker;
     private TokenDecorator $tokenDecorator;
     private string $context;
 
     public function __construct(UserProvider $userProvider,
                                 UserChecker $userChecker,
+                                CredentialsChecker $credentialsChecker,
                                 TokenDecorator $tokenDecorator,
                                 string $context)
     {
         $this->userProvider = $userProvider;
         $this->userChecker = $userChecker;
+        $this->credentialsChecker = $credentialsChecker;
         $this->tokenDecorator = $tokenDecorator;
         $this->context = $context;
     }
@@ -67,7 +72,7 @@ class ProvideLocalAuthentication implements AuthenticationProvider
         $user = $this->userProvider->userOf($identifier);
 
         if (!$user instanceof LocalUser) {
-            throw new RuntimeException("User provider must return a local user");
+            throw new AuthenticationServiceFailure("User provider must return a local user");
         }
 
         return $user;
@@ -77,7 +82,7 @@ class ProvideLocalAuthentication implements AuthenticationProvider
     {
         $this->userChecker->onPreAuthentication($user);
 
-        // credentials checker
+        $this->credentialsChecker->checkCredentials($user, $token);
 
         $this->userChecker->onPostAuthentication($user);
     }
