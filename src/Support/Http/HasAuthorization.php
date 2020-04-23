@@ -58,7 +58,7 @@ trait HasAuthorization
     {
         $token = $this->requireToken();
 
-        if ($this->isFullyAuthenticatedIdentity() || $this->isRememberedIdentity()) {
+        if ($this->isFullyAuthenticatedUser() || $this->isRememberedUser()) {
             return $token->getUser();
         }
 
@@ -70,7 +70,7 @@ trait HasAuthorization
      *
      * @return Identifier
      */
-    protected function getIdentityId(): Identifier
+    protected function getUserIdentifier(): Identifier
     {
         return $this->getAuthenticatedUser()->getIdentifier();
     }
@@ -86,21 +86,21 @@ trait HasAuthorization
     }
 
     /**
-     * Check if token is remembered
+     * Check if User is remembered
      *
      * @return bool
      */
-    protected function isRememberedIdentity(): bool
+    protected function isRememberedUser(): bool
     {
         return $this->trustResolver()->isRemembered($this->requireToken());
     }
 
     /**
-     * Check if token is fully authenticated
+     * Check if User is fully authenticated
      *
      * @return bool
      */
-    protected function isFullyAuthenticatedIdentity(): bool
+    protected function isFullyAuthenticatedUser(): bool
     {
         return $this->trustResolver()->isFullyAuthenticated($this->requireToken());
     }
